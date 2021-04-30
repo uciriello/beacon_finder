@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  description: |
+    Server that receive all the requests from the client
+  version: 1.0.0
+  title: Rick and Morty - Server Gateway
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: Character
+    description: Character operations
+paths:
+  /character:
+    get:
+      tags:
+        - Character
+      summary: Get all characters
+      operationId: getCharacters
+      responses:
+        200:
+          description: All Characters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CharactersResponse"
+        400:
+          description: The provided data are not acceptable
+        401:
+          description: You're not authorized to do this operation
+        409:
+          description: A user with the same data is already registered on the system
+  
+servers:
+  - url: https://rickandmortyapi.com/api
+components:
+  schemas:
+    CharactersResponse:
+      type: object
+      required:
+        - name
+      properties:
+        info:
+          $ref: "#/components/schemas/Info"
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/Character"
+    Info:
+      type: object
+      required:
+        - count
+        - pages
+      properties:
+        count:
+          type: integer
+        pages:
+          type: integer
+        next:
+          type: string
+        prev:
+          type: string
+    Character:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        status:
+          type: string
+        species:
+          type: string
+        type:
+          type: string
+        gender:
+          type: string
+        origin:
+          $ref: "#/components/schemas/Origin"
+    Origin:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+          

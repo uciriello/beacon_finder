@@ -1,0 +1,19 @@
+{
+    "pageNames": {
+        "home": "Home",
+        "settings": "Impostazioni"
+    },
+    "pages": {
+        "settings": {
+            "general": "Generali",
+            "language": "Lingua",
+            "exit": "Esci",
+            "subscription": "Il mio abbonamento",
+            "activity": "Le mie attività"
+        },
+        "home": {
+            "label_times": "Hai premuto il pulsante così tante volte:",
+            "welcome": "Benvenuto {{lastname}} {{name}}"
+        }
+    }
+}

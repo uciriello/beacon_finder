@@ -1,0 +1,19 @@
+{
+    "pageNames": {
+        "home": "Home",
+        "settings": "Settings"
+    },
+    "pages": {
+        "settings": {
+            "general": "General",
+            "language": "Language",
+            "exit": "Exit",
+            "subscription": "Subscription",
+            "activity": "Activity"
+        },
+        "home": {
+            "label_times": "You have pushed the button this many times:",
+            "welcome": "Welcome {{lastname}} {{name}}"
+        }
+    }
+}
