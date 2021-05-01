@@ -8,6 +8,7 @@ class BTServicesProvider extends ChangeNotifier {
   BluetoothDevice _connectedDevice;
   bool _keepScanning;
   bool _isScanning;
+  String _deviceScanned;
   var _subscription;
   FlutterBlue flutterBlue = FlutterBlue.instance;
   bool _inRange = false;
@@ -15,11 +16,11 @@ class BTServicesProvider extends ChangeNotifier {
   List<BluetoothDevice> get scannedDevices => _scannedDevice;
 
   bool get isScanning => _isScanning;
-
   bool get inRange => _inRange;
+  String get deviceScanned => _deviceScanned;
 
   void startTimer() {
-    Timer(Duration(seconds: 7), backgroundScan);
+    Timer(Duration(seconds: 3), backgroundScan);
   }
 
   void backgroundScan() {
@@ -29,13 +30,18 @@ class BTServicesProvider extends ChangeNotifier {
       if (_keepScanning != null && _keepScanning) {
         for (ScanResult r in results) {
           if (r.device.name != null &&
-              r.device.name.length > 0 &&
-              r.device.name == "WGX_iBeacon") {
+                  r.device.name.length > 0 &&
+                  r.device.name == "WGX_iBeacon" ||
+              r.device.name == "FILO-TAG") {
             print('${r.device.name} found! rssi: ${r.rssi}');
             var distance = getDistance(r.rssi);
             print('distance: $distance m');
-            if (distance < 10) {
+            if (distance < 2) {
               _inRange = true;
+              _deviceScanned = r.device.name;
+              notifyListeners();
+            } else {
+              _inRange = false;
               notifyListeners();
             }
           }

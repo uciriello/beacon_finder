@@ -20,6 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   AudioPlayer audioPlayer = AudioPlayer();
   AudioCache audioCache;
   String path = "sample.mp3";
+  String path2 = "sample2.mp3";
 
   @override
   void initState() {
@@ -34,12 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  void playMusic() async {
-    await audioCache.play(path);
+  void playMusic(int device) async {
+    var currentPath = device ==1 ? path : path2;
+    await audioCache.play(currentPath);
   }
 
-  void pauseMusic() async {
-    await audioPlayer.pause();
+  void stopMusic() async {
+    await audioPlayer.stop();
   }
 
   @override
@@ -69,12 +71,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 Consumer<BTServicesProvider>(
                   builder: (context, data, _) {
                     if (data.inRange != null && data.inRange) {
-                      playMusic();
+                      int currentDevice = data.deviceScanned == "FILO-TAG" ? 2 : 1;
+                      playMusic(currentDevice);
+                    } else if (data.inRange != null && !data.inRange){
+                      stopMusic();
                     }
                     return ElevatedButton(
                       onPressed: (data.inRange != null && data.inRange)
                           ? () {
-                              pauseMusic();
+                              stopMusic();
                               btServices.resetResults();
                             }
                           : null,
